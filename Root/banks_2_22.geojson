@@ -1,0 +1,515 @@
+{
+   "type": "FeatureCollection",
+   "features": [
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.14822598,26.02961192 ]
+    },
+    "properties": {
+    "Name":"Jubilee Center of South Broward",
+    "Address":"2020 Scott St",
+    "City":"Hollywood",
+    "ZIP":33020,
+    "Days Open":"Monday-Friday",
+    "Hours":"10:30 am - 12:30 pm",
+    "Website":"https://jubileecenterbroward.org/",
+    "Phone":"(954) 920-0106"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.15837316,25.99391811 ]
+    },
+    "properties": {
+    "Name":"Austin Hepburn Senior Mini Center",
+    "Address":"750 NW 8th Avenue",
+    "City":"Hallandale Beach",
+    "ZIP":33009,
+    "Days Open":"",
+    "Hours":"8:00 am - 5:00 pm",
+    "Website":"",
+    "Phone":"(954) 457-1460"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.23273153,26.06273968 ]
+    },
+    "properties": {
+    "Name":"Bread of Life Food Pantry",
+    "Address":"20911 Johnson St, #104",
+    "City":"Pembroke Pines",
+    "ZIP":33029,
+    "Days Open":"Last Sat of Each Month",
+    "Hours":"",
+    "Website":"",
+    "Phone":"(954) 435-7474"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.2020325,25.99590181 ]
+    },
+    "properties": {
+    "Name":"Washington Park Service Center",
+    "Address":"5648 Wiley Street",
+    "City":"Hollywood",
+    "ZIP":33021,
+    "Days Open":"Wednesday & Friday",
+    "Hours":"12:00 pm - 2:00 pm, 12:00 pm - 1:30 pm",
+    "Website":"",
+    "Phone":"(954) 987-0625"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.17356502,25.98832488 ]
+    },
+    "properties": {
+    "Name":"Feeding South Florida",
+    "Address":"2501 SW 32 Terrace",
+    "City":"Pembroke Park",
+    "ZIP":33023,
+    "Days Open":"",
+    "Hours":"",
+    "Website":"",
+    "Phone":"(954) 518-1818"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.19200693,26.10462127 ]
+    },
+    "properties": {
+    "Name":"Emmanuel Baptist Church Of Holiness",
+    "Address":"3420 Davie Blvd",
+    "City":"Davie",
+    "ZIP":33312,
+    "Days Open":"",
+    "Hours":"",
+    "Website":"",
+    "Phone":"(954) 687-3606"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.20930254,26.02534159 ]
+    },
+    "properties": {
+    "Name":"Hollywood Community Church",
+    "Address":"1708 North 60th Avenue",
+    "City":"Hollywood",
+    "ZIP":33021,
+    "Days Open":"",
+    "Hours":"",
+    "Website":"",
+    "Phone":"(954) 322-4327"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.17911732,26.01384733 ]
+    },
+    "properties": {
+    "Name":"Helping Souls‚ÄîHollywood Hills Food Pantry",
+    "Address":"400 N 35th Avenue",
+    "City":"Hollywood",
+    "ZIP":33021,
+    "Days Open":"",
+    "Hours":"",
+    "Website":"",
+    "Phone":"(954) 943-2141"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.23174846,26.06346354 ]
+    },
+    "properties": {
+    "Name":"Hope Outreach Center",
+    "Address":"4700 SW 64th Avenue, Suite A",
+    "City":"Davie",
+    "ZIP":33314,
+    "Days Open":"Monday-Friday",
+    "Hours":"9:00 am - 3:00 pm",
+    "Website":"",
+    "Phone":"(954) 321-1058"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.2613849,25.98055645 ]
+    },
+    "properties": {
+    "Name":"Jesus Ministries Enrichment Center",
+    "Address":"8700 Miramar Parkway",
+    "City":"Miramar",
+    "ZIP":33025,
+    "Days Open":"Wednesday & Sunday",
+    "Hours":"7:00 pm - 8:00 pm, 9:00 am - 10:00 am",
+    "Website":"",
+    "Phone":"(954) 544-2028"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.22263123,26.06711268 ]
+    },
+    "properties": {
+    "Name":"Ease Foundation",
+    "Address":"4300 SW 57th Avenue",
+    "City":"Davie",
+    "ZIP":33314,
+    "Days Open":"",
+    "Hours":"10:00 am - 4:00 pm",
+    "Website":"",
+    "Phone":"(954) 797-1077"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.18066892,26.03394271 ]
+    },
+    "properties": {
+    "Name":"Sheridan Hills Baptist Church",
+    "Address":"3751 Sheridan Blvd",
+    "City":"Hollywood",
+    "ZIP":33020,
+    "Days Open":"",
+    "Hours":"",
+    "Website":"",
+    "Phone":"(954) 961-4250"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.15440635,26.02151372 ]
+    },
+    "properties": {
+    "Name":"Liberia Economic and Social Development Corporation",
+    "Address":"3220 N 24th Avenue",
+    "City":"Hollywood",
+    "ZIP":33022,
+    "Days Open":"Tuesday-Thursday",
+    "Hours":"9:30 am - 12:30 pm",
+    "Website":"",
+    "Phone":"(954) 924-3635"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.3308159,26.10292677 ]
+    },
+    "properties": {
+    "Name":"St. Bonaventure Catholic Church",
+    "Address":"1301 SW 136th Avenue",
+    "City":"Davie",
+    "ZIP":33325,
+    "Days Open":"",
+    "Hours":"",
+    "Website":"",
+    "Phone":"(954) 424-9504"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.20014146,25.99859199 ]
+    },
+    "properties": {
+    "Name":"Community Enhancement Collaboration, Inc.(CEC) ",
+    "Address":"5648 Wiley Street",
+    "City":"Hollywood",
+    "ZIP":33021,
+    "Days Open":"",
+    "Hours":"",
+    "Website":"",
+    "Phone":"(954) 987-0625"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.21661183,26.15257387 ]
+    },
+    "properties": {
+    "Name":"Christian Community Church of God",
+    "Address":"2052 NW 49th Avenue",
+    "City":"Lauderhill",
+    "ZIP":33313,
+    "Days Open":"Last Sat of Each Month",
+    "Hours":"10:00 am - 2:30 pm",
+    "Website":"",
+    "Phone":"(954) 822-7736"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.14408616,26.1393268 ]
+    },
+    "properties": {
+    "Name":"Hope South Florida",
+    "Address":"1100 N Andrews Avenue",
+    "City":"Fort Lauderdale",
+    "ZIP":33311,
+    "Days Open":"",
+    "Hours":"",
+    "Website":"",
+    "Phone":"(954) 566-2311"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.28781833,26.18097905 ]
+    },
+    "properties": {
+    "Name":"Jubilee of Praise",
+    "Address":"4505 NW 103rd Avenue",
+    "City":"Sunrise",
+    "ZIP":33351,
+    "Days Open":"Thursday",
+    "Hours":"11:00 am - 2:00 pm",
+    "Website":"",
+    "Phone":"(954) 667-6011"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.18467344,26.11348286 ]
+    },
+    "properties": {
+    "Name":"Mission for God's Disciples",
+    "Address":"641 SW 30th Avenue",
+    "City":"Fort Lauderdale",
+    "ZIP":33312,
+    "Days Open":"Tuesday & Thursday",
+    "Hours":"8:00 am - 4:00 pm",
+    "Website":"",
+    "Phone":"(954) 244-6381"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.15252027,26.10711484 ]
+    },
+    "properties": {
+    "Name":"Seventh Day Adventist Church of Fort Lauderdale",
+    "Address":"850 SW 12th Street",
+    "City":"Fort Lauderdale",
+    "ZIP":33301,
+    "Days Open":"Tuesday  ",
+    "Hours":"11:00 am - 1:30 pm",
+    "Website":"",
+    "Phone":"(954) 297-2110"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.29114388,26.175702 ]
+    },
+    "properties": {
+    "Name":"Sunrise Senior Center",
+    "Address":"10650 W Oakland Park Boulevard",
+    "City":"Sunrise",
+    "ZIP":33351,
+    "Days Open":"Monday-Friday",
+    "Hours":"8:30 am - 4:30 pm",
+    "Website":"",
+    "Phone":"(954) 746-3670"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.11639269,26.16026142 ]
+    },
+    "properties": {
+    "Name":"Full Gospel Church",
+    "Address":"2201 NE 19th Street",
+    "City":"Fort Lauderdale",
+    "ZIP":33305,
+    "Days Open":"",
+    "Hours":"",
+    "Website":"",
+    "Phone":"(954) 537-2067"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.14080919,26.14110164 ]
+    },
+    "properties": {
+    "Name":"St. Vincent",
+    "Address":"1211 NE 4th Avenue",
+    "City":"Fort Lauderdale",
+    "ZIP":33304,
+    "Days Open":"",
+    "Hours":"",
+    "Website":"",
+    "Phone":"(954) 462-0716"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.16059329,26.12310772 ]
+    },
+    "properties": {
+    "Name":"Salvation Army",
+    "Address":"1445 W Broward Boulevard",
+    "City":"Fort Lauderdale",
+    "ZIP":33312,
+    "Days Open":"Thursday",
+    "Hours":"9:00 am - 12:00 pm",
+    "Website":"",
+    "Phone":"(954) 524-6991"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.23650192,26.13767314 ]
+    },
+    "properties": {
+    "Name":"Soref Jewish Community Center",
+    "Address":"6501 W Sunrise Boulevard",
+    "City":"Fort Lauderdale",
+    "ZIP":33313,
+    "Days Open":"Monday-Friday",
+    "Hours":"8:30 am - 5:00 pm",
+    "Website":"",
+    "Phone":"(954) 792-6700"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.20606362,26.14690488 ]
+    },
+    "properties": {
+    "Name":"City of Lauderhill",
+    "Address":"4141 NW 16th Street",
+    "City":"Lauderhill",
+    "ZIP":33313,
+    "Days Open":"Monday-Thursday",
+    "Hours":"",
+    "Website":"",
+    "Phone":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.19100052,26.12184994 ]
+    },
+    "properties": {
+    "Name":"Cooperative Feeding Program",
+    "Address":"1 NW 33rd Terrace",
+    "City":"Fort Lauderdale",
+    "ZIP":33311,
+    "Days Open":"Monday-Friday",
+    "Hours":"9:00 am - 4:00 pm",
+    "Website":"",
+    "Phone":"(954) 792-2328"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.14099373,26.1421805 ]
+    },
+    "properties": {
+    "Name":"New Hope World Outreach",
+    "Address":"540 NE 8th St",
+    "City":"Ft Lauderdale",
+    "ZIP":33304,
+    "Days Open":"",
+    "Hours":"",
+    "Website":"",
+    "Phone":"(954) 463-3818"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.13365047,26.16612395 ]
+    },
+    "properties": {
+    "Name":"Immanuel Baptist Church",
+    "Address":"1039 NE 3rd Avenue",
+    "City":"Oakland Park",
+    "ZIP":33304,
+    "Days Open":"",
+    "Hours":"",
+    "Website":"",
+    "Phone":"(954) 763-7282"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.15258465,26.1071052 ]
+    },
+    "properties": {
+    "Name":"Ft Lauderdale SDA",
+    "Address":"850 Davie Blvd",
+    "City":"Ft Lauderdale",
+    "ZIP":33315,
+    "Days Open":"",
+    "Hours":"",
+    "Website":"",
+    "Phone":"(954) 523-8334"
+    }
+  }
+]
+}

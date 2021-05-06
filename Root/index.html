@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+  <!--
+    https://docs.mapbox.com/help/tutorials/building-a-store-locator/
+    Stopped at "Build store listing"
+  
+  -->
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v2.0.1/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v2.0.1/mapbox-gl.css' rel='stylesheet' />
+
+    <style>
+
+        * {
+          -webkit-box-sizing: border-box;
+          -moz-box-sizing: border-box;
+          box-sizing: border-box;
+        }
+        
+        body {
+          color: #404040;
+          font: 400 15px/22px 'Source Sans Pro', 'Helvetica Neue', Sans-serif;
+          margin: 0;
+          padding: 0;
+          -webkit-font-smoothing: antialiased;
+        }
+      
+        h1 {
+          font-size: 22px;
+          margin: 0;
+          font-weight: 400;
+          line-height: 20px;
+          padding: 20px 2px;
+        }
+      
+        a {
+          color: #404040;
+          text-decoration: none;
+        }
+      
+        a:hover {
+          color: #101010;
+        }
+      
+        /* The page is split between map and sidebar - the sidebar gets 1/3, map
+        gets 2/3 of the page. You can adjust this to your personal liking. */
+        .sidebar {
+          position: absolute;
+          width: 33.3333%;
+          height: 93%;
+          top: 0;
+          left: 0;
+          overflow: hidden;
+          border-right: 1px solid rgba(0, 0, 0, 0.25);
+        }
+
+        .menu {
+          position: fixed; /* Set the navbar to fixed position */
+          bottom: 0; /* Position the navbar at the bottom of the page */
+          left: 0;
+          height: 7%;
+          width: 33.3333%; /* Full width */
+        }
+
+        /* Links inside the navbar */
+        .menu a {
+          float: left;
+          display: block;
+          text-align: center;
+          padding: 14px 16px;
+          text-decoration: none;
+
+          color: #404040;
+          font: 400 15px/22px 'Source Sans Pro', 'Helvetica Neue', Sans-serif;
+        }
+
+        /* Change background on mouse-over */
+        .menu a:hover {
+          background: #ddd;
+          color: black;
+        }
+      
+        .map {
+          position: absolute;
+          left: 33.3333%;
+          width: 66.6666%;
+          top: 0;
+          bottom: 0;
+        }
+      
+        .heading {
+          background: #fff;
+          border-bottom: 1px solid #eee;
+          height: 60px;
+          line-height: 60px;
+          padding: 0 10px;
+        }
+
+        .listings {
+          height: 100%;
+          overflow: auto;
+          padding-bottom: 60px;
+        }
+
+        .listings .item {
+          display: block;
+          border-bottom: 1px solid #eee;
+          padding: 10px;
+          text-decoration: none;
+        }
+
+        .listings .item:last-child { border-bottom: none; }
+
+        .listings .item .title {
+          display: block;
+          color: #00853e;
+          font-weight: 700;
+        }
+
+        .listings .item .title small { font-weight: 400; }
+
+        .listings .item.active .title,
+        .listings .item .title:hover { color: #8cc63f; }
+
+        .listings .item.active {
+          background-color: #f8f8f8;
+        }
+
+        ::-webkit-scrollbar {
+          width: 3px;
+          height: 3px;
+          border-left: 0;
+          background: rgba(0, 0, 0, 0.1);
+        }
+
+        ::-webkit-scrollbar-track {
+          background: none;
+        }
+
+        ::-webkit-scrollbar-thumb {
+          background: #00853e;
+          border-radius: 0;
+        }
+
+        .clearfix { display: block; }
+
+        .clearfix::after {
+          content: '.';
+          display: block;
+          height: 0;
+          clear: both;
+          visibility: hidden;
+        }
+
+        /* Marker tweaks */
+        .mapboxgl-popup-close-button {
+          display: none;
+        }
+
+        .mapboxgl-popup-content {
+          font: 400 15px/22px 'Source Sans Pro', 'Helvetica Neue', Sans-serif;
+          padding: 0;
+          width: 180px;
+        }
+
+        .mapboxgl-popup-content-wrapper {
+          padding: 1%;
+        }
+
+        .mapboxgl-popup-content h3 {
+          background: #91c949;
+          color: #fff;
+          margin: 0;
+          display: block;
+          padding: 10px;
+          border-radius: 3px 3px 0 0;
+          font-weight: 700;
+          margin-top: -15px;
+        }
+
+        .mapboxgl-popup-content h4 {
+          margin: 0;
+          display: block;
+          padding: 1px;
+          font-weight: 400;
+        }
+
+        .mapboxgl-popup-content div {
+          padding: 10px;
+        }
+
+        .mapboxgl-container .leaflet-marker-icon {
+          cursor: pointer;
+        }
+
+        .mapboxgl-popup-anchor-top > .mapboxgl-popup-content {
+          margin-top: 15px;
+        }
+
+        .mapboxgl-popup-anchor-top > .mapboxgl-popup-tip {
+          border-bottom-color: #91c949;
+        }
+      </style> 
+</head>
+<body>
+    <div class='sidebar'>
+        <div class='heading'>
+          <h1>Broward Food Bank Locations</h1>
+        </div>
+        <div id='listings' class='listings'></div>
+    </div>
+    <div class='menu'>
+      <a href="https://www.broward.org/CoronaVirus/Pages/Collection-Sites.aspx">Testing</a>
+      <a href="https://myvaccine.fl.gov/">Vaccines</a>
+      <a href="#about">About</a>
+    </div>
+
+    <div id="map" class="map"></div>
+
+    <script>
+      /* This will let you use the .remove() function later on */
+      if (!('remove' in Element.prototype)) {
+        Element.prototype.remove = function() {
+          if (this.parentNode) {
+            this.parentNode.removeChild(this);
+          }
+        };
+      }
+
+      mapboxgl.accessToken = 'pk.eyJ1IjoiZHlsYW5ib2JlciIsImEiOiJja2diaWYzZGowYjBxMnRtcXlhbHZvM2g0In0.k5fTpB-NH7xDkCJdwWCu1Q';
+    
+      //Instantiate map
+      var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/dylanbober/ckgbisxf30gii19ls6leszgs1',
+        center: [-80.201464, 26.104472],
+        zoom: 10.5,
+        scrollZoom: false
+      });
+
+      //Zoom controls
+      map.addControl(new mapboxgl.NavigationControl());
+      
+      var banks = {
+   "type": "FeatureCollection",
+   "features": [
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.14822598,26.02961192 ]
+    },
+    "properties": {
+    "Name":"Jubilee Center of South Broward",
+    "Address":"2020 Scott St",
+    "City":"Hollywood",
+    "ZIP":33020,
+    "Days Open":"Monday-Friday",
+    "Hours":"10:30 am - 12:30 pm",
+    "Website":"https://jubileecenterbroward.org/",
+    "Phone":"(954) 920-0106"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.15837316,25.99391811 ]
+    },
+    "properties": {
+    "Name":"Austin Hepburn Senior Mini Center",
+    "Address":"750 NW 8th Avenue",
+    "City":"Hallandale Beach",
+    "ZIP":33009,
+    "Days Open":"",
+    "Hours":"8:00 am - 5:00 pm",
+    "Website":"",
+    "Phone":"(954) 457-1460"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.23273153,26.06273968 ]
+    },
+    "properties": {
+    "Name":"Bread of Life Food Pantry",
+    "Address":"20911 Johnson St, #104",
+    "City":"Pembroke Pines",
+    "ZIP":33029,
+    "Days Open":"Last Sat of Each Month",
+    "Hours":"",
+    "Website":"",
+    "Phone":"(954) 435-7474"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.2020325,25.99590181 ]
+    },
+    "properties": {
+    "Name":"Washington Park Service Center",
+    "Address":"5648 Wiley Street",
+    "City":"Hollywood",
+    "ZIP":33021,
+    "Days Open":"Wednesday & Friday",
+    "Hours":"12:00 pm - 2:00 pm, 12:00 pm - 1:30 pm",
+    "Website":"",
+    "Phone":"(954) 987-0625"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.17356502,25.98832488 ]
+    },
+    "properties": {
+    "Name":"Feeding South Florida",
+    "Address":"2501 SW 32 Terrace",
+    "City":"Pembroke Park",
+    "ZIP":33023,
+    "Days Open":"",
+    "Hours":"",
+    "Website":"",
+    "Phone":"(954) 518-1818"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.19200693,26.10462127 ]
+    },
+    "properties": {
+    "Name":"Emmanuel Baptist Church Of Holiness",
+    "Address":"3420 Davie Blvd",
+    "City":"Davie",
+    "ZIP":33312,
+    "Days Open":"",
+    "Hours":"",
+    "Website":"",
+    "Phone":"(954) 687-3606"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.20930254,26.02534159 ]
+    },
+    "properties": {
+    "Name":"Hollywood Community Church",
+    "Address":"1708 North 60th Avenue",
+    "City":"Hollywood",
+    "ZIP":33021,
+    "Days Open":"",
+    "Hours":"",
+    "Website":"",
+    "Phone":"(954) 322-4327"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.17911732,26.01384733 ]
+    },
+    "properties": {
+    "Name":"Helping Souls‚ÄîHollywood Hills Food Pantry",
+    "Address":"400 N 35th Avenue",
+    "City":"Hollywood",
+    "ZIP":33021,
+    "Days Open":"",
+    "Hours":"",
+    "Website":"",
+    "Phone":"(954) 943-2141"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.23174846,26.06346354 ]
+    },
+    "properties": {
+    "Name":"Hope Outreach Center",
+    "Address":"4700 SW 64th Avenue, Suite A",
+    "City":"Davie",
+    "ZIP":33314,
+    "Days Open":"Monday-Friday",
+    "Hours":"9:00 am - 3:00 pm",
+    "Website":"",
+    "Phone":"(954) 321-1058"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.2613849,25.98055645 ]
+    },
+    "properties": {
+    "Name":"Jesus Ministries Enrichment Center",
+    "Address":"8700 Miramar Parkway",
+    "City":"Miramar",
+    "ZIP":33025,
+    "Days Open":"Wednesday & Sunday",
+    "Hours":"7:00 pm - 8:00 pm, 9:00 am - 10:00 am",
+    "Website":"",
+    "Phone":"(954) 544-2028"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.22263123,26.06711268 ]
+    },
+    "properties": {
+    "Name":"Ease Foundation",
+    "Address":"4300 SW 57th Avenue",
+    "City":"Davie",
+    "ZIP":33314,
+    "Days Open":"",
+    "Hours":"10:00 am - 4:00 pm",
+    "Website":"",
+    "Phone":"(954) 797-1077"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.18066892,26.03394271 ]
+    },
+    "properties": {
+    "Name":"Sheridan Hills Baptist Church",
+    "Address":"3751 Sheridan Blvd",
+    "City":"Hollywood",
+    "ZIP":33020,
+    "Days Open":"",
+    "Hours":"",
+    "Website":"",
+    "Phone":"(954) 961-4250"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.15440635,26.02151372 ]
+    },
+    "properties": {
+    "Name":"Liberia Economic and Social Development Corporation",
+    "Address":"3220 N 24th Avenue",
+    "City":"Hollywood",
+    "ZIP":33022,
+    "Days Open":"Tuesday-Thursday",
+    "Hours":"9:30 am - 12:30 pm",
+    "Website":"",
+    "Phone":"(954) 924-3635"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.3308159,26.10292677 ]
+    },
+    "properties": {
+    "Name":"St. Bonaventure Catholic Church",
+    "Address":"1301 SW 136th Avenue",
+    "City":"Davie",
+    "ZIP":33325,
+    "Days Open":"",
+    "Hours":"",
+    "Website":"",
+    "Phone":"(954) 424-9504"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.20014146,25.99859199 ]
+    },
+    "properties": {
+    "Name":"Community Enhancement Collaboration, Inc.(CEC) ",
+    "Address":"5648 Wiley Street",
+    "City":"Hollywood",
+    "ZIP":33021,
+    "Days Open":"",
+    "Hours":"",
+    "Website":"",
+    "Phone":"(954) 987-0625"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.21661183,26.15257387 ]
+    },
+    "properties": {
+    "Name":"Christian Community Church of God",
+    "Address":"2052 NW 49th Avenue",
+    "City":"Lauderhill",
+    "ZIP":33313,
+    "Days Open":"Last Sat of Each Month",
+    "Hours":"10:00 am - 2:30 pm",
+    "Website":"",
+    "Phone":"(954) 822-7736"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.14408616,26.1393268 ]
+    },
+    "properties": {
+    "Name":"Hope South Florida",
+    "Address":"1100 N Andrews Avenue",
+    "City":"Fort Lauderdale",
+    "ZIP":33311,
+    "Days Open":"",
+    "Hours":"",
+    "Website":"",
+    "Phone":"(954) 566-2311"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.28781833,26.18097905 ]
+    },
+    "properties": {
+    "Name":"Jubilee of Praise",
+    "Address":"4505 NW 103rd Avenue",
+    "City":"Sunrise",
+    "ZIP":33351,
+    "Days Open":"Thursday",
+    "Hours":"11:00 am - 2:00 pm",
+    "Website":"",
+    "Phone":"(954) 667-6011"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.18467344,26.11348286 ]
+    },
+    "properties": {
+    "Name":"Mission for God's Disciples",
+    "Address":"641 SW 30th Avenue",
+    "City":"Fort Lauderdale",
+    "ZIP":33312,
+    "Days Open":"Tuesday & Thursday",
+    "Hours":"8:00 am - 4:00 pm",
+    "Website":"",
+    "Phone":"(954) 244-6381"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.15252027,26.10711484 ]
+    },
+    "properties": {
+    "Name":"Seventh Day Adventist Church of Fort Lauderdale",
+    "Address":"850 SW 12th Street",
+    "City":"Fort Lauderdale",
+    "ZIP":33301,
+    "Days Open":"Tuesday  ",
+    "Hours":"11:00 am - 1:30 pm",
+    "Website":"",
+    "Phone":"(954) 297-2110"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.29114388,26.175702 ]
+    },
+    "properties": {
+    "Name":"Sunrise Senior Center",
+    "Address":"10650 W Oakland Park Boulevard",
+    "City":"Sunrise",
+    "ZIP":33351,
+    "Days Open":"Monday-Friday",
+    "Hours":"8:30 am - 4:30 pm",
+    "Website":"",
+    "Phone":"(954) 746-3670"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.11639269,26.16026142 ]
+    },
+    "properties": {
+    "Name":"Full Gospel Church",
+    "Address":"2201 NE 19th Street",
+    "City":"Fort Lauderdale",
+    "ZIP":33305,
+    "Days Open":"",
+    "Hours":"",
+    "Website":"",
+    "Phone":"(954) 537-2067"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.14080919,26.14110164 ]
+    },
+    "properties": {
+    "Name":"St. Vincent",
+    "Address":"1211 NE 4th Avenue",
+    "City":"Fort Lauderdale",
+    "ZIP":33304,
+    "Days Open":"",
+    "Hours":"",
+    "Website":"",
+    "Phone":"(954) 462-0716"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.16059329,26.12310772 ]
+    },
+    "properties": {
+    "Name":"Salvation Army",
+    "Address":"1445 W Broward Boulevard",
+    "City":"Fort Lauderdale",
+    "ZIP":33312,
+    "Days Open":"Thursday",
+    "Hours":"9:00 am - 12:00 pm",
+    "Website":"",
+    "Phone":"(954) 524-6991"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.23650192,26.13767314 ]
+    },
+    "properties": {
+    "Name":"Soref Jewish Community Center",
+    "Address":"6501 W Sunrise Boulevard",
+    "City":"Fort Lauderdale",
+    "ZIP":33313,
+    "Days Open":"Monday-Friday",
+    "Hours":"8:30 am - 5:00 pm",
+    "Website":"",
+    "Phone":"(954) 792-6700"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.20606362,26.14690488 ]
+    },
+    "properties": {
+    "Name":"City of Lauderhill",
+    "Address":"4141 NW 16th Street",
+    "City":"Lauderhill",
+    "ZIP":33313,
+    "Days Open":"Monday-Thursday",
+    "Hours":"",
+    "Website":"",
+    "Phone":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.19100052,26.12184994 ]
+    },
+    "properties": {
+    "Name":"Cooperative Feeding Program",
+    "Address":"1 NW 33rd Terrace",
+    "City":"Fort Lauderdale",
+    "ZIP":33311,
+    "Days Open":"Monday-Friday",
+    "Hours":"9:00 am - 4:00 pm",
+    "Website":"",
+    "Phone":"(954) 792-2328"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.14099373,26.1421805 ]
+    },
+    "properties": {
+    "Name":"New Hope World Outreach",
+    "Address":"540 NE 8th St",
+    "City":"Ft Lauderdale",
+    "ZIP":33304,
+    "Days Open":"",
+    "Hours":"",
+    "Website":"",
+    "Phone":"(954) 463-3818"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.13365047,26.16612395 ]
+    },
+    "properties": {
+    "Name":"Immanuel Baptist Church",
+    "Address":"1039 NE 3rd Avenue",
+    "City":"Oakland Park",
+    "ZIP":33304,
+    "Days Open":"",
+    "Hours":"",
+    "Website":"",
+    "Phone":"(954) 763-7282"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -80.15258465,26.1071052 ]
+    },
+    "properties": {
+    "Name":"Ft Lauderdale SDA",
+    "Address":"850 Davie Blvd",
+    "City":"Ft Lauderdale",
+    "ZIP":33315,
+    "Days Open":"",
+    "Hours":"",
+    "Website":"",
+    "Phone":"(954) 523-8334"
+    }
+  }
+]
+}
+
+      banks.features.forEach(function(banks, i) {
+          banks.properties.id = i;
+      });
+
+      map.on('click', function(e) {
+        /* Determine if a feature in the "locations" layer exists at that point. */
+        var features = map.queryRenderedFeatures(e.point, {
+          layers: ['locations']
+        });
+        
+        /* If yes, then: */
+        if (features.length) {
+          var clickedPoint = features[0];
+          
+          /* Fly to the point */
+          flyToStore(clickedPoint);
+          
+          /* Close all other popups and display popup for clicked store */
+          createPopUp(clickedPoint);
+          
+          /* Highlight listing in sidebar (and remove highlight for all other listings) */
+          var activeItem = document.getElementsByClassName('active');
+          if (activeItem[0]) {
+            activeItem[0].classList.remove('active');
+          }
+          var listing = document.getElementById('listing-' + clickedPoint.properties.id);
+          listing.classList.add('active');
+        }
+      });
+
+      function buildLocationList(data) {
+        data.features.forEach(function(banks, i){
+        /**
+         * Create a shortcut for `store.properties`,
+         * which will be used several times below.
+        **/
+        var prop = banks.properties;
+
+        /* Add a new listing section to the sidebar. */
+        var listings = document.getElementById('listings');
+        var listing = listings.appendChild(document.createElement('div'));
+        /* Assign a unique `id` to the listing. */
+        listing.id = "listing-" + data.features[i].properties.id;
+        /* Assign the `item` class to each listing for styling. */
+        listing.className = 'item';
+
+        /* Add the link to the individual listing created above. */
+        var link = listing.appendChild(document.createElement('a'));
+        link.href = '#';
+        link.className = 'title';
+        link.id = "link-" + prop.id;
+        link.innerHTML = prop.Name;
+
+        /* Add details to the individual listing. */
+        var details = listing.appendChild(document.createElement('div'));
+        
+        details.innerHTML = prop.Address;
+        if (prop.City) {
+          details.innerHTML += ' · ' + prop.City;
+        }
+        if (prop.Phone) {
+          details.innerHTML += '<br />' + prop.Phone;
+        }
+        if (prop.Website) {
+          details.innerHTML += " · <a href='"+prop.Website+"'>Website</a>";
+        }
+        if (prop.Hours) {
+          details.innerHTML += '<br />' + prop.Hours;
+        }
+        if (prop['Days Open']) {
+          details.innerHTML += " · " + prop['Days Open'];
+        }
+        if (prop.distance) {
+          var roundedDistance = Math.round(prop.distance * 100) / 100;
+          details.innerHTML +=
+            '<p><strong>' + roundedDistance + ' miles away</strong></p>';
+        }
+
+        link.addEventListener('click', function(e){
+          for (var i = 0; i < data.features.length; i++) {
+            if (this.id === "link-" + data.features[i].properties.id) {
+              var clickedListing = data.features[i];
+              flyToStore(clickedListing);
+              createPopUp(clickedListing);
+            }
+          }  
+          var activeItem = document.getElementsByClassName('active');
+          if (activeItem[0]) {
+            activeItem[0].classList.remove('active');
+          }
+          this.parentNode.classList.add('active');
+        });
+      });
+    }
+
+    function flyToStore(currentFeature) {
+      map.flyTo({
+        center: currentFeature.geometry.coordinates,
+        zoom: 15
+      });
+    }
+
+    function createPopUp(currentFeature) {
+      var popUps = document.getElementsByClassName('mapboxgl-popup');
+      /** Check if there is already a popup on the map and if so, remove it */
+      if (popUps[0]) popUps[0].remove();
+
+      var popup = new mapboxgl.Popup({ closeOnClick: false })
+        .setLngLat(currentFeature.geometry.coordinates)
+        .setHTML('<h3>' + currentFeature.properties.Name + '</h3>' +
+          '<h4>' + currentFeature.properties.Address + ', ' + currentFeature.properties.City + '</h4>' + 
+          '<h4>' + currentFeature.properties.Hours + '</h4>' + 
+          '<h4>' + currentFeature.properties['Days Open'] + '</h4>'
+          )
+        .addTo(map);
+    }
+
+    //Add layer
+    map.on('load', function (e) {
+    map.addLayer({
+        "id": "locations",
+        "type": "circle",
+        "source": {
+          "type": "geojson",
+          "data": banks
+        }
+      });
+      buildLocationList(banks);
+    });
+
+    </script>
+</body>
+</html>
